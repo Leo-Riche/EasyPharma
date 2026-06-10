@@ -48,7 +48,10 @@ export default function App() {
 
   async function fetchPharmacies(lat, lng) {
     const query = `[out:json][timeout:15];node["amenity"="pharmacy"](around:2000,${lat},${lng});out body;`
-    const res = await fetch('https://overpass.kumi.systems/api/interpreter', { method: 'POST', body: query })
+    const overpassUrl = import.meta.env.DEV
+      ? 'https://overpass-api.de/api/interpreter'
+      : '/api/overpass'
+    const res = await fetch(overpassUrl, { method: 'POST', body: query })
     const data = await res.json()
     let fallbackIdx = 0
     return data.elements.map((el) => {

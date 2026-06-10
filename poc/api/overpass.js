@@ -1,5 +1,5 @@
 export const config = {
-  api: { bodyParser: false },
+  api: { bodyParser: { type: 'text/plain' } },
 }
 
 export default async function handler(req, res) {
@@ -7,20 +7,22 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const body = await new Promise((resolve, reject) => {
-    let data = ''
-    req.on('data', chunk => { data += chunk })
-    req.on('end', () => resolve(data))
-    req.on('error', reject)
-  })
+  try {
+    const response = await fetch('https://overpass-api.de/api/interpreter', {
+      method: 'POST',
+      body: typeof req.body === 'string' ? req.body : JSON.stringify(req.body),
+      headers: { 'Content-Type': 'text/plain' },
+    })
 
-  const response = await fetch('https://overpass-api.de/api/interpreter', {
-    method: 'POST',
-    body,
-    headers: { 'Content-Type': 'text/plain' },
-  })
+    if (!response.ok) {
+      return res.status(502).json({ error: `Overpass error: ${response.status}` })
+    }
 
-  const data = await response.json()
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.status(200).json(data)
+    const text = await response.text()
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Content-Type', 'application/json')
+    res.status(200).send(text)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
 }
