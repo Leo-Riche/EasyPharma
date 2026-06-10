@@ -1,0 +1,97 @@
+[
+  {
+    "id": 1001,
+    "name": "Pharmacie de la Paix",
+    "address": "12 Rue de la Paix, 75002 Paris",
+    "lat": 48.8699,
+    "lng": 2.3316,
+    "phone": "01 42 61 03 04",
+    "opening_hours": "Mo-Fr 08:30-20:00; Sa 09:00-19:00",
+    "stock": [
+      { "cip13": "3400935954841", "name": "Doliprane 1000mg", "form": "Comprimé", "lab": "Sanofi", "qty": 48, "unit": "boîte de 8", "status": "available" },
+      { "cip13": "3400936023066", "name": "Amoxicilline 500mg", "form": "Gélule", "lab": "Biogaran", "qty": 6, "unit": "boîte de 12", "status": "low" },
+      { "cip13": "3400935350484", "name": "Ibuprofène 400mg", "form": "Comprimé", "lab": "Mylan", "qty": 22, "unit": "boîte de 12", "status": "available" },
+      { "cip13": "3400936318820", "name": "Ventoline 100µg", "form": "Aérosol", "lab": "GSK", "qty": 0, "unit": "flacon pressurisé", "status": "unavailable" },
+      { "cip13": "3400935450640", "name": "Metformine 850mg", "form": "Comprimé", "lab": "Teva", "qty": 15, "unit": "boîte de 90", "status": "available" },
+      { "cip13": "3400936109912", "name": "Oméprazole 20mg", "form": "Gélule", "lab": "Arrow", "qty": 3, "unit": "boîte de 14", "status": "low" },
+      { "cip13": "3400935678933", "name": "Levothyrox 50µg", "form": "Comprimé", "lab": "Merck", "qty": 9, "unit": "boîte de 30", "status": "available" },
+      { "cip13": "3400937543120", "name": "Xarelto 20mg", "form": "Comprimé", "lab": "Bayer", "qty": 0, "unit": "boîte de 28", "status": "unavailable" }
+    ]
+  },
+  {
+    "id": 1002,
+    "name": "Pharmacie des Halles",
+    "address": "4 Boulevard de Sébastopol, 75001 Paris",
+    "lat": 48.8603,
+    "lng": 2.3488,
+    "phone": "01 42 33 56 78",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "stock": [
+      { "cip13": "3400935954841", "name": "Doliprane 1000mg", "form": "Comprimé", "lab": "Sanofi", "qty": 120, "unit": "boîte de 8", "status": "available" },
+      { "cip13": "3400936023066", "name": "Amoxicilline 500mg", "form": "Gélule", "lab": "Biogaran", "qty": 0, "unit": "boîte de 12", "status": "unavailable" },
+      { "cip13": "3400935350484", "name": "Ibuprofène 400mg", "form": "Comprimé", "lab": "Mylan", "qty": 35, "unit": "boîte de 12", "status": "available" },
+      { "cip13": "3400936318820", "name": "Ventoline 100µg", "form": "Aérosol", "lab": "GSK", "qty": 12, "unit": "flacon pressurisé", "status": "available" },
+      { "cip13": "3400935450640", "name": "Metformine 850mg", "form": "Comprimé", "lab": "Teva", "qty": 0, "unit": "boîte de 90", "status": "unavailable" },
+      { "cip13": "3400936109912", "name": "Oméprazole 20mg", "form": "Gélule", "lab": "Arrow", "qty": 28, "unit": "boîte de 14", "status": "available" },
+      { "cip13": "3400935678933", "name": "Levothyrox 50µg", "form": "Comprimé", "lab": "Merck", "qty": 2, "unit": "boîte de 30", "status": "low" },
+      { "cip13": "3400937543120", "name": "Xarelto 20mg", "form": "Comprimé", "lab": "Bayer", "qty": 7, "unit": "boîte de 28", "status": "available" }
+    ]
+  },
+  {
+    "id": 1003,
+    "name": "Grande Pharmacie du Marais",
+    "address": "27 Rue de Rivoli, 75004 Paris",
+    "lat": 48.8551,
+    "lng": 2.3522,
+    "phone": "01 48 87 62 11",
+    "opening_hours": "Mo-Sa 09:00-20:30",
+    "stock": [
+      { "cip13": "3400935954841", "name": "Doliprane 1000mg", "form": "Comprimé", "lab": "Sanofi", "qty": 0, "unit": "boîte de 8", "status": "unavailable" },
+      { "cip13": "3400936023066", "name": "Amoxicilline 500mg", "form": "Gélule", "lab": "Biogaran", "qty": 18, "unit": "boîte de 12", "status": "available" },
+      { "cip13": "3400935350484", "name": "Ibuprofène 400mg", "form": "Comprimé", "lab": "Mylan", "qty": 4, "unit": "boîte de 12", "status": "low" },
+      { "cip13": "3400936318820", "name": "Ventoline 100µg", "form": "Aérosol", "lab": "GSK", "qty": 3, "unit": "flacon pressurisé", "status": "low" },
+      { "cip13": "3400935450640", "name": "Metformine 850mg", "form": "Comprimé", "lab": "Teva", "qty": 40, "unit": "boîte de 90", "status": "available" },
+      { "cip13": "3400936109912", "name": "Oméprazole 20mg", "form": "Gélule", "lab": "Arrow", "qty": 11, "unit": "boîte de 14", "status": "available" },
+      { "cip13": "3400935678933", "name": "Levothyrox 50µg", "form": "Comprimé", "lab": "Merck", "qty": 0, "unit": "boîte de 30", "status": "unavailable" },
+      { "cip13": "3400937543120", "name": "Xarelto 20mg", "form": "Comprimé", "lab": "Bayer", "qty": 14, "unit": "boîte de 28", "status": "available" }
+    ]
+  },
+  {
+    "id": 1004,
+    "name": "Pharmacie Beaubourg",
+    "address": "51 Rue Rambuteau, 75003 Paris",
+    "lat": 48.8618,
+    "lng": 2.3533,
+    "phone": "01 42 72 03 23",
+    "opening_hours": "Mo-Fr 08:00-20:00; Sa 09:00-18:00",
+    "stock": [
+      { "cip13": "3400935954841", "name": "Doliprane 1000mg", "form": "Comprimé", "lab": "Sanofi", "qty": 30, "unit": "boîte de 8", "status": "available" },
+      { "cip13": "3400936023066", "name": "Amoxicilline 500mg", "form": "Gélule", "lab": "Biogaran", "qty": 9, "unit": "boîte de 12", "status": "available" },
+      { "cip13": "3400935350484", "name": "Ibuprofène 400mg", "form": "Comprimé", "lab": "Mylan", "qty": 0, "unit": "boîte de 12", "status": "unavailable" },
+      { "cip13": "3400936318820", "name": "Ventoline 100µg", "form": "Aérosol", "lab": "GSK", "qty": 6, "unit": "flacon pressurisé", "status": "available" },
+      { "cip13": "3400935450640", "name": "Metformine 850mg", "form": "Comprimé", "lab": "Teva", "qty": 2, "unit": "boîte de 90", "status": "low" },
+      { "cip13": "3400936109912", "name": "Oméprazole 20mg", "form": "Gélule", "lab": "Arrow", "qty": 0, "unit": "boîte de 14", "status": "unavailable" },
+      { "cip13": "3400935678933", "name": "Levothyrox 50µg", "form": "Comprimé", "lab": "Merck", "qty": 25, "unit": "boîte de 30", "status": "available" },
+      { "cip13": "3400937543120", "name": "Xarelto 20mg", "form": "Comprimé", "lab": "Bayer", "qty": 1, "unit": "boîte de 28", "status": "low" }
+    ]
+  },
+  {
+    "id": 1005,
+    "name": "Pharmacie Saint-Antoine",
+    "address": "89 Rue du Faubourg Saint-Antoine, 75011 Paris",
+    "lat": 48.8524,
+    "lng": 2.3712,
+    "phone": "01 43 43 19 03",
+    "opening_hours": "Mo-Fr 08:30-19:30; Sa 09:00-17:00",
+    "stock": [
+      { "cip13": "3400935954841", "name": "Doliprane 1000mg", "form": "Comprimé", "lab": "Sanofi", "qty": 75, "unit": "boîte de 8", "status": "available" },
+      { "cip13": "3400936023066", "name": "Amoxicilline 500mg", "form": "Gélule", "lab": "Biogaran", "qty": 0, "unit": "boîte de 12", "status": "unavailable" },
+      { "cip13": "3400935350484", "name": "Ibuprofène 400mg", "form": "Comprimé", "lab": "Mylan", "qty": 18, "unit": "boîte de 12", "status": "available" },
+      { "cip13": "3400936318820", "name": "Ventoline 100µg", "form": "Aérosol", "lab": "GSK", "qty": 0, "unit": "flacon pressurisé", "status": "unavailable" },
+      { "cip13": "3400935450640", "name": "Metformine 850mg", "form": "Comprimé", "lab": "Teva", "qty": 55, "unit": "boîte de 90", "status": "available" },
+      { "cip13": "3400936109912", "name": "Oméprazole 20mg", "form": "Gélule", "lab": "Arrow", "qty": 7, "unit": "boîte de 14", "status": "available" },
+      { "cip13": "3400935678933", "name": "Levothyrox 50µg", "form": "Comprimé", "lab": "Merck", "qty": 3, "unit": "boîte de 30", "status": "low" },
+      { "cip13": "3400937543120", "name": "Xarelto 20mg", "form": "Comprimé", "lab": "Bayer", "qty": 19, "unit": "boîte de 28", "status": "available" }
+    ]
+  }
+]
