@@ -1276,3 +1276,233 @@
   align-items: center;
   justify-content: center;
 }
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 1024px) ───────────────────────────────────── */
+@media (max-width: 1024px) {
+  .sidebar { width: 300px; }
+
+  .search-form { max-width: none; }
+
+  .btn-pharmacist span { display: none; }
+  .btn-pharmacist { padding: 9px 12px; }
+
+  .dash-body { padding: 24px 16px; }
+
+  .dash-pharmacy-card { flex-wrap: wrap; gap: 16px; }
+  .dash-stock-summary-mini { width: 100%; justify-content: center; }
+
+  .dash-role-badge { display: none; }
+}
+
+/* ── Mobile (≤ 640px) ────────────────────────────────────── */
+@media (max-width: 640px) {
+
+  /* Header : 2 lignes */
+  .header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 16px;
+    gap: 10px;
+    row-gap: 8px;
+  }
+
+  .brand { flex: 1; }
+
+  .btn-pharmacist {
+    padding: 8px 10px;
+    font-size: 0; /* cache le texte */
+    gap: 0;
+  }
+  .btn-pharmacist svg { margin: 0; width: 18px; height: 18px; }
+
+  .search-form {
+    order: 3;
+    flex: 0 0 100%;
+    max-width: none;
+  }
+
+  /* Cache le label "Rechercher", garde juste l'icône */
+  .search-form .btn-primary span { display: none; }
+  .search-form .btn-primary { padding: 9px 12px; }
+
+  /* "Ma position" → icône seule */
+  .btn-ghost span { display: none; }
+  .btn-ghost { padding: 9px 11px; }
+
+  /* Filtre Médicaments : texte masqué */
+  .medfilter-trigger span:not(.medfilter-badge) { display: none; }
+  .medfilter-trigger { padding: 9px 11px; }
+
+  /* Filter bar : compacte */
+  .filter-bar { padding: 6px 12px; gap: 6px; }
+  .filter-bar-count { display: none; }
+
+  /* Layout mobile : colonne, plein écran */
+  .layout {
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Map : plein écran par défaut */
+  .map-area {
+    flex: 1;
+    height: 100%;
+  }
+
+  /* Sidebar : plein écran */
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-top: 1px solid var(--gray-200);
+    flex: 1;
+  }
+
+  /* Onglet Carte actif : sidebar cachée */
+  .layout.mobile-map .sidebar { display: none; }
+  .layout.mobile-map .map-area { display: flex; flex: 1; }
+
+  /* Onglet Liste actif : carte cachée */
+  .layout.mobile-list .map-area { display: none; }
+  .layout.mobile-list .sidebar { display: flex; flex: 1; }
+
+  /* Barre d'onglets mobile */
+  .mobile-tabs {
+    display: flex;
+    background: var(--white);
+    border-top: 1px solid var(--gray-200);
+    flex-shrink: 0;
+  }
+
+  .mobile-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 12px;
+    border: none;
+    background: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--gray-400);
+    cursor: pointer;
+    position: relative;
+    transition: color .15s;
+  }
+
+  .mobile-tab.active {
+    color: var(--green-600);
+    border-top: 2px solid var(--green-600);
+    margin-top: -1px;
+  }
+
+  .mobile-tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--green-600);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    width: 17px; height: 17px;
+    border-radius: 50%;
+  }
+
+  /* Modal : plein écran en bas (bottom sheet) */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+
+  .modal {
+    border-radius: 20px 20px 0 0;
+    max-height: 92vh;
+    animation: slideUpSheet .25s ease;
+  }
+
+  @keyframes slideUpSheet {
+    from { transform: translateY(100%); opacity: 1; }
+    to   { transform: translateY(0);   opacity: 1; }
+  }
+
+  /* Dashboard mobile */
+  .dash-header {
+    padding: 0 16px;
+    height: auto;
+    min-height: 56px;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .dash-header-center { display: none; }
+  .dash-last-sync { display: none; }
+
+  .dash-body { padding: 16px 12px; gap: 16px; }
+
+  .dash-pharmacy-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .dash-pharmacy-name { font-size: 17px; }
+
+  .dash-stock-summary-mini { width: 100%; }
+  .dsm-item { padding: 10px 12px; }
+  .dsm-item strong { font-size: 18px; }
+
+  .dash-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .dash-publish-btn { width: 100%; justify-content: center; }
+
+  /* Table → cards sur mobile */
+  .stock-table thead { display: none; }
+
+  .stock-table,
+  .stock-table tbody,
+  .stock-table-row { display: block; width: 100%; }
+
+  .stock-table-row {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    align-items: center;
+  }
+  .stock-table-row:hover { background: var(--gray-50); }
+
+  .stock-table-row td {
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stock-table-row td::before {
+    content: attr(data-label);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    color: var(--gray-400);
+  }
+
+  /* Médicament prend toute la largeur */
+  .stock-table-row td:first-child { grid-column: 1 / -1; }
+
+  .stock-qty-input { width: 70px; }
+}
+
+/* ── Masquer la barre d'onglets sur desktop ──────────────── */
+@media (min-width: 641px) {
+  .mobile-tabs { display: none; }
+}

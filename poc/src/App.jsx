@@ -23,6 +23,7 @@ export default function App() {
   const [selectedMeds, setSelectedMeds] = useState(new Set())
   const [showLogin, setShowLogin]     = useState(false)
   const [pharmacist, setPharmacist]   = useState(null)
+  const [mobileTab, setMobileTab]     = useState('map') // 'map' | 'list'
 
   // Source de vérité du stock — initialisé depuis le JSON, mis à jour par le pharmacien
   const [liveStock, setLiveStock] = useState(
@@ -193,7 +194,7 @@ export default function App() {
         </div>
       )}
 
-      <div className="layout">
+      <div className={`layout${mobileTab === 'map' ? ' mobile-map' : ' mobile-list'}`}>
         <aside className="sidebar">
           {selected === null ? (
             <>
@@ -248,6 +249,36 @@ export default function App() {
           />
         </main>
       </div>
+
+      {/* Barre d'onglets mobile */}
+      <nav className="mobile-tabs">
+        <button
+          className={`mobile-tab${mobileTab === 'map' ? ' active' : ''}`}
+          onClick={() => setMobileTab('map')}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+            <line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
+          </svg>
+          Carte
+          {visiblePharmacies.length > 0 && mobileTab !== 'map' && (
+            <span className="mobile-tab-badge">{visiblePharmacies.length}</span>
+          )}
+        </button>
+        <button
+          className={`mobile-tab${mobileTab === 'list' ? ' active' : ''}`}
+          onClick={() => setMobileTab('list')}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+          Liste
+          {visiblePharmacies.length > 0 && mobileTab !== 'list' && (
+            <span className="mobile-tab-badge">{visiblePharmacies.length}</span>
+          )}
+        </button>
+      </nav>
     </div>
   )
 }

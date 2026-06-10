@@ -207,12 +207,12 @@ export default function Dashboard({ pharmacist, liveStock, onPublish, onLogout }
                   const cfg = STATUS_LABELS[med.status]
                   return (
                     <tr key={med.cip13} className={`stock-table-row status-${med.status}`}>
-                      <td>
+                      <td data-label="Médicament">
                         <div className="st-name">{med.name}</div>
                         <div className="st-cip">CIP13 : {med.cip13}</div>
                       </td>
-                      <td className="st-meta">{med.form} · {med.lab}</td>
-                      <td>
+                      <td data-label="Forme · Laboratoire" className="st-meta">{med.form} · {med.lab}</td>
+                      <td data-label="Quantité">
                         <input
                           type="number"
                           className="stock-qty-input"
@@ -221,7 +221,7 @@ export default function Dashboard({ pharmacist, liveStock, onPublish, onLogout }
                           onChange={e => updateQty(med.cip13, e.target.value)}
                         />
                       </td>
-                      <td>
+                      <td data-label="Statut">
                         <StatusSelect value={med.status} onChange={v => updateStatus(med.cip13, v)} />
                       </td>
                     </tr>
