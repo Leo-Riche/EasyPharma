@@ -93,5 +93,24 @@
       { "cip13": "3400935678933", "name": "Levothyrox 50µg", "form": "Comprimé", "lab": "Merck", "qty": 3, "unit": "boîte de 30", "status": "low" },
       { "cip13": "3400937543120", "name": "Xarelto 20mg", "form": "Comprimé", "lab": "Bayer", "qty": 19, "unit": "boîte de 28", "status": "available" }
     ]
+  },
+  {
+    "id": 1006,
+    "name": "Parapharmacie Les Terrasses de l'Arche",
+    "address": "Centre Commercial Les Terrasses de l'Arche, 92000 Nanterre",
+    "lat": 48.8924,
+    "lng": 2.2195,
+    "phone": "01 47 25 14 60",
+    "opening_hours": "Mo-Sa 10:00-20:30; Su 11:00-19:00",
+    "stock": [
+      { "cip13": "3401560852801", "name": "Ambre Solaire SPF50+", "form": "Crème", "lab": "Garnier", "qty": 34, "unit": "tube 50ml", "status": "available" },
+      { "cip13": "3401047680028", "name": "Vitamine D3 1000UI", "form": "Capsule", "lab": "Pharma Nord", "qty": 12, "unit": "boîte de 90", "status": "available" },
+      { "cip13": "3401548220017", "name": "Magnésium Marin B6", "form": "Comprimé", "lab": "Arkopharma", "qty": 3, "unit": "boîte de 60", "status": "low" },
+      { "cip13": "3401063250019", "name": "Homéoplasmine", "form": "Pommade", "lab": "Boiron", "qty": 0, "unit": "tube 40g", "status": "unavailable" },
+      { "cip13": "3401567320044", "name": "Gel douche Mustela", "form": "Gel", "lab": "Mustela", "qty": 21, "unit": "flacon 500ml", "status": "available" },
+      { "cip13": "3401598760031", "name": "Mélatonine 1mg", "form": "Comprimé", "lab": "Santé Verte", "qty": 7, "unit": "boîte de 30", "status": "available" },
+      { "cip13": "3401521430056", "name": "Thermomètre Frontal", "form": "Dispositif", "lab": "Hartmann", "qty": 0, "unit": "unité", "status": "unavailable" },
+      { "cip13": "3401534120072", "name": "Probiotiques Lactibiane", "form": "Gélule", "lab": "PiLeJe", "qty": 2, "unit": "boîte de 30", "status": "low" }
+    ]
   }
 ]

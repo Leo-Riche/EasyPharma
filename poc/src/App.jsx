@@ -4,24 +4,36 @@ import SearchBar from './components/SearchBar'
 import PharmacyList from './components/PharmacyList'
 import PharmacyDetail from './components/PharmacyDetail'
 import MedFilter from './components/MedFilter'
+import LoginModal from './components/LoginModal'
+import Dashboard from './pages/Dashboard'
 import mockData from './data/pharmacies.json'
 import './App.css'
 
-// Liste unique de médicaments extraite du JSON mock
 const ALL_MEDICATIONS = Array.from(
-  new Map(
-    mockData.flatMap(p => p.stock).map(m => [m.cip13, m])
-  ).values()
+  new Map(mockData.flatMap(p => p.stock).map(m => [m.cip13, m])).values()
 )
 
 export default function App() {
-  const [center, setCenter] = useState(null)
-  const [address, setAddress] = useState('')
-  const [pharmacies, setPharmacies] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [selected, setSelected] = useState(null)
-  const [error, setError] = useState(null)
+  const [center, setCenter]           = useState(null)
+  const [address, setAddress]         = useState('')
+  const [pharmacies, setPharmacies]   = useState([])   // OSM brut + mockPharmacyId
+  const [loading, setLoading]         = useState(false)
+  const [selected, setSelected]       = useState(null)
+  const [error, setError]             = useState(null)
   const [selectedMeds, setSelectedMeds] = useState(new Set())
+  const [showLogin, setShowLogin]     = useState(false)
+  const [pharmacist, setPharmacist]   = useState(null)
+
+  // Source de vérité du stock — initialisé depuis le JSON, mis à jour par le pharmacien
+  const [liveStock, setLiveStock] = useState(
+    () => Object.fromEntries(mockData.map(p => [p.id, p.stock.map(s => ({ ...s }))]))
+  )
+
+  // Pharmacies OSM enrichies avec le stock live correspondant
+  const pharmaciesWithStock = useMemo(() =>
+    pharmacies.map(p => ({ ...p, stock: liveStock[p.mockPharmacyId] })),
+    [pharmacies, liveStock]
+  )
 
   async function geocode(query) {
     const res = await fetch(
@@ -35,14 +47,24 @@ export default function App() {
 
   async function fetchPharmacies(lat, lng) {
     const query = `[out:json][timeout:15];node["amenity"="pharmacy"](around:2000,${lat},${lng});out body;`
-    const res = await fetch('https://overpass-api.de/api/interpreter', {
-      method: 'POST',
-      body: query,
-    })
+    const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query })
     const data = await res.json()
-    return data.elements.map((el, i) => {
+    let fallbackIdx = 0
+    return data.elements.map((el) => {
       const t = el.tags || {}
+      const osmName = (t.name || '').toLowerCase().trim()
       const addrParts = [t['addr:housenumber'], t['addr:street'], t['addr:postcode'], t['addr:city']].filter(Boolean)
+
+      // Priorité 1 : correspondance exacte par nom avec un profil enregistré
+      const namedMatch = mockData.find(m => m.name.toLowerCase().trim() === osmName)
+      // Priorité 2 : correspondance partielle (le nom OSM contient le nom du profil ou vice-versa)
+      const partialMatch = !namedMatch && mockData.find(m =>
+        osmName.includes(m.name.toLowerCase().trim()) ||
+        m.name.toLowerCase().trim().includes(osmName)
+      )
+      // Priorité 3 : rotation sur les profils restants (pharmacies sans profil dédié)
+      const mockEntry = namedMatch ?? partialMatch ?? mockData[fallbackIdx++ % mockData.length]
+
       return {
         id: el.id,
         lat: el.lat,
@@ -51,8 +73,7 @@ export default function App() {
         address: addrParts.length ? addrParts.join(' ') : null,
         opening_hours: t.opening_hours || null,
         phone: t.phone || t['contact:phone'] || null,
-        // stock mock assigné de façon stable par index
-        stock: mockData[i % mockData.length].stock,
+        mockPharmacyId: mockEntry.id,
       }
     })
   }
@@ -64,53 +85,56 @@ export default function App() {
   }
 
   async function handleSearch(query) {
-    setError(null)
-    setLoading(true)
-    setSelected(null)
+    setError(null); setLoading(true); setSelected(null)
     try {
       const { lat, lng, label } = await geocode(query)
-      setAddress(label)
-      setCenter({ lat, lng })
+      setAddress(label); setCenter({ lat, lng })
       setPharmacies(sortByDist(await fetchPharmacies(lat, lng), lat, lng))
-    } catch (e) {
-      setError(e.message)
-    } finally {
-      setLoading(false)
-    }
+    } catch (e) { setError(e.message) }
+    finally { setLoading(false) }
   }
 
   async function handleGeolocate() {
     if (!navigator.geolocation) return
-    setError(null)
-    setLoading(true)
-    setSelected(null)
+    setError(null); setLoading(true); setSelected(null)
     navigator.geolocation.getCurrentPosition(
       async ({ coords: { latitude: lat, longitude: lng } }) => {
-        setCenter({ lat, lng })
-        setAddress('Ma position actuelle')
+        setCenter({ lat, lng }); setAddress('Ma position actuelle')
         try {
           setPharmacies(sortByDist(await fetchPharmacies(lat, lng), lat, lng))
-        } catch (e) {
-          setError(e.message)
-        } finally {
-          setLoading(false)
-        }
+        } catch (e) { setError(e.message) }
+        finally { setLoading(false) }
       },
       () => { setError('Géolocalisation refusée ou indisponible.'); setLoading(false) }
     )
   }
 
-  // Pharmacies filtrées : ne garder que celles qui ont TOUS les médicaments sélectionnés (dispo ou faible)
+  // Appelé par le dashboard quand le pharmacien publie
+  function handlePublish(pharmacyId, newStock) {
+    setLiveStock(prev => ({ ...prev, [pharmacyId]: newStock }))
+  }
+
   const visiblePharmacies = useMemo(() => {
-    if (selectedMeds.size === 0) return pharmacies
-    return pharmacies.filter(p =>
+    if (selectedMeds.size === 0) return pharmaciesWithStock
+    return pharmaciesWithStock.filter(p =>
       [...selectedMeds].every(cip13 =>
         p.stock.some(s => s.cip13 === cip13 && s.status !== 'unavailable')
       )
     )
-  }, [pharmacies, selectedMeds])
+  }, [pharmaciesWithStock, selectedMeds])
 
-  const selectedPharmacy = pharmacies.find(p => p.id === selected)
+  const selectedPharmacy = pharmaciesWithStock.find(p => p.id === selected)
+
+  if (pharmacist) {
+    return (
+      <Dashboard
+        pharmacist={pharmacist}
+        liveStock={liveStock}
+        onPublish={handlePublish}
+        onLogout={() => setPharmacist(null)}
+      />
+    )
+  }
 
   return (
     <div className="app">
@@ -129,9 +153,22 @@ export default function App() {
           selectedMeds={selectedMeds}
           onChange={meds => { setSelectedMeds(meds); setSelected(null) }}
         />
+        <button className="btn btn-pharmacist" onClick={() => setShowLogin(true)}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Espace Pharmacien
+        </button>
       </header>
 
-      {/* Barre de filtres actifs */}
+      {showLogin && (
+        <LoginModal
+          onClose={() => setShowLogin(false)}
+          onLogin={data => { setPharmacist(data); setShowLogin(false) }}
+        />
+      )}
+
       {selectedMeds.size > 0 && (
         <div className="filter-bar">
           <span className="filter-bar-label">Filtre :</span>
@@ -141,9 +178,7 @@ export default function App() {
               <span key={cip13} className="filter-pill">
                 {med?.name}
                 <button onClick={() => {
-                  const next = new Set(selectedMeds)
-                  next.delete(cip13)
-                  setSelectedMeds(next)
+                  const next = new Set(selectedMeds); next.delete(cip13); setSelectedMeds(next)
                 }}>
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                     <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>

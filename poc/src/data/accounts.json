@@ -1,0 +1,22 @@
+[  
+  {
+    "email": "contact@parapharmacieterrasses.fr",
+    "password": "demo123",
+    "pharmacyId": 1006
+  },
+  {
+    "email": "contact@pharmaciedelapaix.fr",
+    "password": "demo123",
+    "pharmacyId": 1001
+  },
+  {
+    "email": "contact@pharmaciedeshalles.fr",
+    "password": "demo123",
+    "pharmacyId": 1002
+  },
+  {
+    "email": "contact@grandepharmaciedumarais.fr",
+    "password": "demo123",
+    "pharmacyId": 1003
+  }
+]
