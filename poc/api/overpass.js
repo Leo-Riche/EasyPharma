@@ -1,37 +1,23 @@
-export const config = {
-  api: { bodyParser: false },
-}
-
 const ENDPOINTS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.openstreetmap.fr/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter',
 ]
 
-async function readBody(req) {
-  return new Promise((resolve, reject) => {
-    let data = ''
-    req.on('data', chunk => { data += chunk.toString() })
-    req.on('end', () => resolve(data))
-    req.on('error', reject)
-  })
-}
-
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
+  const query = req.method === 'POST' ? req.body : req.query.data
+
+  if (!query) {
+    return res.status(400).json({ error: 'Missing query' })
   }
 
-  const body = await readBody(req)
   let lastError = null
 
   for (const endpoint of ENDPOINTS) {
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        body,
-        headers: { 'Content-Type': 'text/plain' },
-        signal: AbortSignal.timeout(12000),
+      const url = `${endpoint}?data=${encodeURIComponent(query)}`
+      const response = await fetch(url, {
+        signal: AbortSignal.timeout(14000),
       })
 
       if (!response.ok) {
@@ -40,8 +26,7 @@ export default async function handler(req, res) {
       }
 
       const text = await response.text()
-      // Vérifie que c'est bien du JSON avant de renvoyer
-      JSON.parse(text)
+      JSON.parse(text) // valide que c'est du JSON
       res.setHeader('Access-Control-Allow-Origin', '*')
       res.setHeader('Content-Type', 'application/json')
       return res.status(200).send(text)
@@ -50,5 +35,5 @@ export default async function handler(req, res) {
     }
   }
 
-  res.status(502).json({ error: `All Overpass endpoints failed: ${lastError}` })
+  res.status(502).json({ error: lastError })
 }

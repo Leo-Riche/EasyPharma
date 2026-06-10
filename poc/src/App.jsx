@@ -48,10 +48,9 @@ export default function App() {
 
   async function fetchPharmacies(lat, lng) {
     const query = `[out:json][timeout:15];node["amenity"="pharmacy"](around:2000,${lat},${lng});out body;`
-    const overpassUrl = import.meta.env.DEV
-      ? 'https://overpass-api.de/api/interpreter'
-      : '/api/overpass'
-    const res = await fetch(overpassUrl, { method: 'POST', body: query })
+    const res = import.meta.env.DEV
+      ? await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query })
+      : await fetch(`/api/overpass?data=${encodeURIComponent(query)}`)
     const data = await res.json()
     if (!data.elements?.length) return []
     let fallbackIdx = 0
