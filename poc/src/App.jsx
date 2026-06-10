@@ -53,6 +53,7 @@ export default function App() {
       : '/api/overpass'
     const res = await fetch(overpassUrl, { method: 'POST', body: query })
     const data = await res.json()
+    if (!data.elements?.length) return []
     let fallbackIdx = 0
     return data.elements.map((el) => {
       const t = el.tags || {}
