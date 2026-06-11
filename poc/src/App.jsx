@@ -46,13 +46,34 @@ export default function App() {
     return { lat, lng, label: data.features[0].properties.label }
   }
 
+  function buildMockPharmacies(lat, lng) {
+    const offsets = [
+      [0.004, 0.003], [-0.003, 0.005], [0.006, -0.002],
+      [-0.005, -0.004], [0.002, -0.006], [0.007, 0.001],
+    ]
+    return mockData.map((m, i) => ({
+      id: m.id,
+      lat: lat + (offsets[i]?.[0] ?? 0),
+      lng: lng + (offsets[i]?.[1] ?? 0),
+      name: m.name,
+      address: m.address,
+      opening_hours: m.opening_hours,
+      phone: m.phone,
+      mockPharmacyId: m.id,
+    }))
+  }
+
   async function fetchPharmacies(lat, lng) {
-    const query = `[out:json][timeout:15];node["amenity"="pharmacy"](around:2000,${lat},${lng});out body;`
-    const res = import.meta.env.DEV
-      ? await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query })
-      : await fetch(`/api/overpass?data=${encodeURIComponent(query)}`)
-    const data = await res.json()
-    if (!data.elements?.length) return []
+    try {
+      const query = `[out:json][timeout:15];node["amenity"="pharmacy"](around:2000,${lat},${lng});out body;`
+      const res = import.meta.env.DEV
+        ? await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query })
+        : await fetch(`/api/overpass?data=${encodeURIComponent(query)}`)
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data = await res.json()
+      if (!data.elements?.length) return buildMockPharmacies(lat, lng)
+
     let fallbackIdx = 0
     return data.elements.map((el) => {
       const t = el.tags || {}
@@ -80,6 +101,9 @@ export default function App() {
         mockPharmacyId: mockEntry.id,
       }
     })
+    } catch {
+      return buildMockPharmacies(lat, lng)
+    }
   }
 
   function sortByDist(list, lat, lng) {
