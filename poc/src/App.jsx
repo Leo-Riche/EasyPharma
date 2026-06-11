@@ -66,9 +66,7 @@ export default function App() {
   async function fetchPharmacies(lat, lng) {
     try {
       const query = `[out:json][timeout:15];node["amenity"="pharmacy"](around:2000,${lat},${lng});out body;`
-      const res = import.meta.env.DEV
-        ? await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query })
-        : await fetch(`/api/overpass?data=${encodeURIComponent(query)}`)
+      const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query })
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
