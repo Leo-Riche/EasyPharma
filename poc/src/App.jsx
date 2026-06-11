@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar'
 import PharmacyList from './components/PharmacyList'
 import PharmacyDetail from './components/PharmacyDetail'
 import MedFilter from './components/MedFilter'
+import OrdonnanceModal from './components/OrdonnanceModal'
 import LoginModal from './components/LoginModal'
 import Dashboard from './pages/Dashboard'
 import mockData from './data/pharmacies.json'
@@ -22,6 +23,7 @@ export default function App() {
   const [error, setError]             = useState(null)
   const [selectedMeds, setSelectedMeds] = useState(new Set())
   const [showLogin, setShowLogin]     = useState(false)
+  const [showOrdonnance, setShowOrdonnance] = useState(false)
   const [pharmacist, setPharmacist]   = useState(null)
   const [mobileTab, setMobileTab]     = useState('map') // 'map' | 'list'
 
@@ -174,6 +176,16 @@ export default function App() {
           <span className="brand-name">Easy<span>Pharma</span></span>
         </a>
         <SearchBar onSearch={handleSearch} onGeolocate={handleGeolocate} loading={loading} />
+        <button className="btn btn-ordonnance" onClick={() => setShowOrdonnance(true)}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <path d="M10 9H8"/>
+          </svg>
+          <span>Mon ordonnance</span>
+        </button>
         <MedFilter
           medications={ALL_MEDICATIONS}
           selectedMeds={selectedMeds}
@@ -187,6 +199,14 @@ export default function App() {
           Espace Pharmacien
         </button>
       </header>
+
+      {showOrdonnance && (
+        <OrdonnanceModal
+          allMedications={ALL_MEDICATIONS}
+          onApply={meds => { setSelectedMeds(meds); setSelected(null) }}
+          onClose={() => setShowOrdonnance(false)}
+        />
+      )}
 
       {showLogin && (
         <LoginModal

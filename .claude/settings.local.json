@@ -3,7 +3,11 @@
     "allow": [
       "Bash(npm create *)",
       "Bash(npm install *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(python -c \"import reportlab; print\\('ok'\\)\")",
+      "Bash(pip install *)",
+      "Bash(python generate_ordonnance.py)",
+      "Bash(python generate_ordonnance2.py)"
     ]
   }
 }

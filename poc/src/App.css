@@ -138,6 +138,17 @@
   color: var(--gray-900);
 }
 
+.btn-ordonnance {
+  background: var(--green-50);
+  color: var(--green-700);
+  border: 1.5px solid var(--green-200);
+  flex-shrink: 0;
+}
+.btn-ordonnance:hover:not(:disabled) {
+  background: var(--green-100);
+  transform: translateY(-1px);
+}
+
 .btn-pharmacist {
   background: #0f172a;
   color: var(--white);
@@ -1278,6 +1289,232 @@
 }
 
 /* ══════════════════════════════════════════════════════════
+   ORDONNANCE MODAL
+   ══════════════════════════════════════════════════════════ */
+
+.ordo-modal { max-width: 520px; }
+
+.ordo-modal-icon {
+  width: 36px; height: 36px;
+  background: var(--green-50);
+  border: 1.5px solid var(--green-200);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-600);
+  flex-shrink: 0;
+}
+
+.modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Upload step ── */
+.ordo-upload-section { display: flex; flex-direction: column; gap: 20px; }
+
+.ordo-dropzone {
+  border: 2px dashed var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 36px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--gray-50);
+}
+.ordo-dropzone:hover, .ordo-dropzone.drag-over {
+  border-color: var(--green-400);
+  background: var(--green-50);
+}
+.ordo-dropzone-icon {
+  width: 56px; height: 56px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-600);
+  margin-bottom: 4px;
+  box-shadow: var(--shadow-sm);
+}
+.ordo-dropzone-title { font-size: 14.5px; font-weight: 600; color: var(--gray-900); }
+.ordo-dropzone-sub   { font-size: 13px; color: var(--gray-500); }
+.ordo-dropzone-formats {
+  font-size: 11.5px; color: var(--gray-400);
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-top: 4px;
+}
+
+.ordo-divider {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--gray-400); font-size: 12.5px;
+}
+.ordo-divider::before, .ordo-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--gray-200);
+}
+
+.ordo-manual-search, .ordo-add-more { position: relative; }
+
+.ordo-search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color .15s;
+}
+.ordo-search-input:focus { border-color: var(--green-400); }
+
+.ordo-search-results {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  overflow: hidden;
+}
+.ordo-search-result-item {
+  display: flex; flex-direction: column; gap: 2px;
+  width: 100%; padding: 10px 14px;
+  border: none; background: none;
+  text-align: left; cursor: pointer;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background .1s;
+}
+.ordo-search-result-item:last-child { border-bottom: none; }
+.ordo-search-result-item:hover { background: var(--green-50); }
+.osri-name { font-size: 13.5px; font-weight: 600; color: var(--gray-900); }
+.osri-meta { font-size: 12px; color: var(--gray-500); }
+
+/* ── Scan step ── */
+.ordo-scanning {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; padding: 24px 0;
+}
+.ordo-scan-animation { position: relative; }
+.ordo-scan-doc {
+  width: 80px; height: 96px;
+  background: var(--green-50);
+  border: 2px solid var(--green-200);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-600);
+  position: relative;
+  overflow: hidden;
+}
+.ordo-scan-line {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: var(--green-500);
+  box-shadow: 0 0 8px var(--green-400);
+  animation: scanMove 1.2s ease-in-out infinite;
+}
+@keyframes scanMove {
+  0%   { top: 10%; }
+  50%  { top: 85%; }
+  100% { top: 10%; }
+}
+.ordo-scanning-title { font-size: 15px; font-weight: 700; color: var(--gray-900); }
+.ordo-scanning-sub   { font-size: 13px; color: var(--gray-500); }
+.ordo-scan-steps { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 260px; }
+.ordo-scan-step {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--gray-400);
+}
+.ordo-scan-step.active { color: var(--green-600); }
+.ordo-scan-step.loading { color: var(--green-600); }
+
+/* ── Result step ── */
+.ordo-result { display: flex; flex-direction: column; gap: 16px; }
+
+.ordo-file-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--green-50); border: 1px solid var(--green-200);
+  border-radius: 20px; padding: 4px 12px;
+  font-size: 12.5px; color: var(--green-700); width: fit-content;
+}
+
+.ordo-meds-list { display: flex; flex-direction: column; gap: 6px; }
+
+.ordo-med-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  transition: border-color .15s, background .15s;
+}
+.ordo-med-item.checked {
+  border-color: var(--green-300);
+  background: var(--green-50);
+}
+
+.ordo-med-check { position: relative; flex-shrink: 0; }
+.ordo-med-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.ordo-med-checkmark {
+  display: block; width: 18px; height: 18px;
+  border: 2px solid var(--gray-300);
+  border-radius: 4px;
+  background: var(--white);
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+}
+.ordo-med-check input:checked + .ordo-med-checkmark {
+  background: var(--green-600);
+  border-color: var(--green-600);
+}
+.ordo-med-check input:checked + .ordo-med-checkmark::after {
+  content: '';
+  position: absolute; left: 4px; top: 1px;
+  width: 5px; height: 9px;
+  border: 2px solid white; border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
+
+.ordo-med-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.ordo-med-name { font-size: 13.5px; font-weight: 600; color: var(--gray-900); }
+.ordo-med-meta { font-size: 12px; color: var(--gray-500); }
+
+.ordo-med-remove {
+  border: none; background: none; cursor: pointer;
+  color: var(--gray-400); padding: 4px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center;
+  transition: color .1s, background .1s;
+}
+.ordo-med-remove:hover { color: #dc2626; background: #fef2f2; }
+
+.ordo-add-more { margin-top: -4px; }
+
+.ordo-scan-error {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 12.5px; color: #dc2626; line-height: 1.5;
+}
+
+.ordo-result-info {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: #eff6ff; border: 1px solid #bfdbfe;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 12.5px; color: #1d4ed8; line-height: 1.5;
+}
+
+/* ── Modal footer ── */
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--gray-100);
+  display: flex; justify-content: flex-end; gap: 8px;
+}
+
+/* ══════════════════════════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════════════════════════ */
 
@@ -1287,6 +1524,8 @@
 
   .search-form { max-width: none; }
 
+  .btn-ordonnance span { display: none; }
+  .btn-ordonnance { padding: 9px 12px; }
   .btn-pharmacist span { display: none; }
   .btn-pharmacist { padding: 9px 12px; }
 
